@@ -135,6 +135,21 @@ namespace Practice.Tests.DataStructures
         }
 
         [Fact]
+        public void WhenEmptyListIsIterated_ThenNoIterationsAreReturned()
+        {
+            var list = new DoublyLinkedList<int>();
+
+            var iterations = 0;
+
+            foreach (var node in list)
+            {
+                iterations++;
+            }
+
+            iterations.Should().Be(0);
+        }
+
+        [Fact]
         public void WhenListWithOneNodeIsReplaced_ThenFirstAndLastAreReplaced()
         {
             var firstValue  = new TestClass("Name1", 1);
