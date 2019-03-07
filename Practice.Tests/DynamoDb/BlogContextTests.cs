@@ -17,7 +17,7 @@ namespace Practice.Tests.DynamoDb
             _ContextFactory = new BlogContextFactory(new Uri("http://localhost:8000"));
         }
 
-        [Fact(Skip = "Run LocalDB")]
+        //[Fact(Skip = "Run LocalDB")]
         public async Task WhenBlogIsSaved_ThenSameBlogIsRetrieved()
         {
             var body   = "Really smart sounding blog post because I'm a hipster.";

@@ -34,7 +34,7 @@ namespace Practice.Tests.DataStructures
 
             var list = new DoublyLinkedList<TestClass>();
 
-            list.Append(input);
+            list.AddLast(input);
 
             list.First.Should().Be(list.Last);
         }
@@ -46,7 +46,7 @@ namespace Practice.Tests.DataStructures
 
             var list = new DoublyLinkedList<TestClass>();
 
-            list.Insert(input);
+            list.AddFirst(input);
 
             list.First.Should().Be(list.Last);
         }
@@ -61,7 +61,7 @@ namespace Practice.Tests.DataStructures
 
             foreach (var appendValue in appendedValues)
             {
-                list.Append(appendValue);
+                list.AddLast(appendValue);
             }
 
             var expectedContents = new[] { 1, 2, 3, 4, 5, 1, 2, 3, 4, 5 };
@@ -79,7 +79,7 @@ namespace Practice.Tests.DataStructures
 
             foreach(var appendValue in insertedValues)
             {
-                list.Insert(appendValue);
+                list.AddFirst(appendValue);
             }
 
             var expectedContents = new[] { 5, 4, 3, 2, 1, 1, 2, 3, 4, 5 };
@@ -244,7 +244,7 @@ namespace Practice.Tests.DataStructures
 
             list.Count().Should().Be(0);
 
-            list.Append(50);
+            list.AddLast(50);
 
             list.Count().Should().Be(1);
         }
@@ -256,7 +256,7 @@ namespace Practice.Tests.DataStructures
 
             list.Count().Should().Be(0);
 
-            list.Insert(50);
+            list.AddFirst(50);
 
             list.Count().Should().Be(1);
         }
@@ -273,6 +273,27 @@ namespace Practice.Tests.DataStructures
             list.Replace(list.First, 1000000);
 
             list.Count.Should().Be(inputCount);
+        }
+
+        [Fact]
+        public void WhenListIsCleared_ThenStateIsEquivalentToEmptyCtor()
+        {
+            var list = new DoublyLinkedList<int>(new[] { 1, 2, 3, 4, 5 });
+
+            list.Clear();
+
+            list.First.Should().BeNull();
+            list.Last.Should().BeNull();
+            list.Count.Should().Be(0);
+
+            var iterations = 0;
+
+            foreach (var node in list)
+            {
+                iterations++;
+            }
+
+            iterations.Should().Be(0);
         }
 
         public class TestClass

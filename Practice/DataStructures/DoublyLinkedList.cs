@@ -12,8 +12,6 @@ namespace Practice.DataStructures
 
         public int Count { get; private set; }
 
-        private LinkedList<T> _Example;
-
         public DoublyLinkedList() { }
 
         public DoublyLinkedList(IEnumerable<T> nodes)
@@ -22,11 +20,11 @@ namespace Practice.DataStructures
 
             foreach(var node in nodes)
             {
-                Append(node);
+                AddLast(node);
             }
         }
 
-        public void Append(T value)
+        public void AddLast(T value)
         {
             PracticeExtensions.ThrowIfNull(value, nameof(value));
 
@@ -42,7 +40,7 @@ namespace Practice.DataStructures
             Count++;
         }
 
-        public void Insert(T value)
+        public void AddFirst(T value)
         {
             PracticeExtensions.ThrowIfNull(value, nameof(value));
 
@@ -83,6 +81,13 @@ namespace Practice.DataStructures
             {
                 node.Replace(value);
             }
+        }
+
+        public void Clear()
+        {
+            First = null;
+            Last  = null;
+            Count = 0;
         }
 
         public IEnumerator<DoublyLinkedNode<T>> GetEnumerator()
