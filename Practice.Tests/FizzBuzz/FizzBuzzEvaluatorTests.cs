@@ -4,7 +4,7 @@ using Practice.FizzBuzz;
 using FluentAssertions;
 using System.Collections.Generic;
 
-namespace Practice.Tests
+namespace Practice.Tests.FizzBuzz
 {
     public class FizzBuzzEvaluatorTests
     {

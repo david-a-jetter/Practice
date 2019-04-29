@@ -24,7 +24,7 @@ namespace Practice.FizzBuzz
             _Suffix = suffix ?? throw new ArgumentNullException(nameof(suffix));
         }
 
-        public string Evaluate(int input)
+        public FizzBuzzOutput Evaluate(int input)
         {
             var anyMatches = false;
 
@@ -48,7 +48,9 @@ namespace Practice.FizzBuzz
                 outputSb.Append(_Suffix);
             }
 
-            return outputSb.ToString();
+            var output = new FizzBuzzOutput(input, outputSb.ToString());
+
+            return output;
         }
     }
 }

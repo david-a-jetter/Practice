@@ -6,6 +6,6 @@ namespace Practice.FizzBuzz
 {
     public interface IFizzBuzzEvaluator
     {
-        string Evaluate(int input);
+        FizzBuzzOutput Evaluate(int input);
     }
 }
