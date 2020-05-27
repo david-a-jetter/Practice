@@ -66,7 +66,7 @@ namespace Practice.Tests.FizzBuzz
             for (int i = 1; i <= 100; i++)
             {
                 var output = fizzBuzz.Evaluate(i);
-                outputList.Add(output);
+                // outputList.Add(output.Output);
             }
 
             outputList.Should().BeEquivalentTo(_ExpectedOutput100);

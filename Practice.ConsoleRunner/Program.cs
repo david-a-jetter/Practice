@@ -13,41 +13,73 @@ namespace Practice.ConsoleRunner
 {
     public static class Program
     {
-        private static Random _Random { get; }
-
         public static async Task Main(string[] args)
         {
             var input = Console.ReadLine();
 
             while(! string.IsNullOrWhiteSpace(input))
             {
-                var o = 0;
                 var isPalindrome = true;
-                var checks = Convert.ToInt32(input.Length / 2);
+                var length = input.Length;
+                var checks = length / 2;
 
-                for (int i = input.Length - 1; o < checks; i--)
+                var lastIndex = 0;
+
+                for (var i = 0; i < checks; i++)
                 {
-                    var reversedChar = input[i];
-                    var inputChar = input[o];
+                    lastIndex = i;
 
-                    if (reversedChar != inputChar)
+                    var x = (length - i) - 1;
+                    var frontChar = input[i];
+                    var backChar = input[x];
+
+                    if (frontChar != backChar)
                     {
                         isPalindrome = false;
                         break;
                     }
+                }
 
-                    o++;
+                int removedCharIndex = 0;
+
+                if (! isPalindrome)
+                {
+                    for (var t = lastIndex; t < checks; t++)
+                    {
+                        var newAttempt = input.Remove(t, 1);
+
+                        lastIndex = t;
+
+                        var x = (length - t) - 2;
+                        var frontChar = input[t];
+                        var backChar = input[x];
+
+                        if (frontChar != backChar)
+                        {
+                            break;
+                        }
+
+                        removedCharIndex = t;
+
+                        isPalindrome = true;
+                    }
                 }
 
                 Console.WriteLine($"Input was: {input}");
 
                 if (isPalindrome)
                 {
-                    Console.WriteLine("These are palindromes!");
+                    Console.WriteLine($"These are palindromes! Completed {lastIndex + 1} checks");
+                    
+                    if (removedCharIndex > 0)
+                    {
+                        var removedChar = input[removedCharIndex];
+                        Console.WriteLine($"Had to remove character '{removedChar}' at index '{removedCharIndex}'");
+                    }
                 }
                 else
                 {
-                    Console.WriteLine($"This is not a palindrome. Completed {o + 1} checks");
+                    Console.WriteLine($"This is not a palindrome. Completed {lastIndex + 1} checks");
                 }
 
                 Console.WriteLine();
