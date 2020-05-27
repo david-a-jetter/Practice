@@ -34,6 +34,7 @@ namespace Practice.Copy
                 _FileSystem.Directory.CreateDirectory(targetDir);
             }
 
+            //TODO: Async this using streams for async reasons
             _FileSystem.File.Copy(sourcePath, targetPath);
         }
 
@@ -47,6 +48,7 @@ namespace Practice.Copy
             return targetPath;
         }
 
+        //TODO: Use this so we can async-ify the copy routine
         private Stream CreateFileStream(string path)
         {
             var stream = _FileSystem.FileStream.Create(
