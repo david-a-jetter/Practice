@@ -21,6 +21,10 @@ namespace Practice.Tests.Copy
             {
                 { Path.Combine(baseDirectory, "myfile.txt"), new MockFileData("Testing is meh.") },
                 { Path.Combine(baseDirectory, @"subDir\myfile.txt"), new MockFileData("Testing is GREAT.") },
+                { Path.Combine(baseDirectory, @"subDir\doubleSub\two.txt"), new MockFileData("Testing is MEH!!!!.") },
+                { Path.Combine(baseDirectory, @"subDir\doubleSub\deep\two.txt"), new MockFileData("Testing is MEH!!!!.") },
+                { Path.Combine(baseDirectory, @"subDir\otherSub\four.txt"), new MockFileData("Testing is potato.") },
+                { Path.Combine(baseDirectory, @"subDir\otherSub\deeper\five.txt"), new MockFileData("Testing is nested potatoes.") },
                 { Path.Combine(baseDirectory, "jQuery.js"), new MockFileData("some js") },
                 { Path.Combine(baseDirectory, "image.gif"), new MockFileData(new byte[] { 0x12, 0x34, 0x56, 0xd2 }) }
             };
