@@ -1,42 +1,53 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO.Abstractions;
+using System.Linq;
 
 namespace Practice.Copy
 {
     internal class DirectoryMapper
     {
         private IFileSystem _FileSystem { get; }
-        private string _Directory { get; }
-        private ISet<string> _Paths { get; }
-
-        public DirectoryMapper(IFileSystem fileSystem, string baseDirectory)
+        public DirectoryMapper(IFileSystem fileSystem)
         {
             _FileSystem = fileSystem ?? throw new ArgumentNullException(nameof(fileSystem));
-            if (string.IsNullOrWhiteSpace(baseDirectory)) throw new ArgumentNullException(nameof(baseDirectory));
-            if (!_FileSystem.Directory.Exists(baseDirectory))
+        }
+
+        public ISet<string> GetAllFilePaths(string directory)
+        {
+            if (string.IsNullOrWhiteSpace(directory)) throw new ArgumentNullException(nameof(directory));
+            if (!_FileSystem.Directory.Exists(directory))
             {
-                throw new ArgumentException($"Directory does not exist: {baseDirectory}");
+                throw new ArgumentException($"Directory does not exist: {directory}");
             }
 
-            _Directory = baseDirectory;
-            _Paths = new HashSet<string>();
+            var filePaths = GetFilePathsInDirectory(directory);
+
+            return filePaths;
         }
 
-        public ISet<string> GetAllFilePaths()
-        {
-            AddFilesForDirectory(_Directory);
-
-            return _Paths;
-        }
-
-        private void AddFilesForDirectory(string directory)
+        private HashSet<string> GetFilePathsInDirectory(string directory)
         {
             var files = _FileSystem.Directory.GetFiles(directory);
+            var paths = new HashSet<string>();
             foreach (var file in files)
             {
-                _Paths.Add(file);
+                paths.Add(file);
             }
+
+            var subDirectories = _FileSystem.Directory.GetDirectories(directory);
+
+            foreach (var subDirectory in subDirectories)
+            {
+                var subPaths = GetFilePathsInDirectory(subDirectory);
+
+                foreach (var path in subPaths)
+                {
+                    paths.Add(path);
+                }
+            }
+
+            return paths;
         }
     }
 }

@@ -16,8 +16,8 @@ namespace Practice.Copy
 
         public async Task CopyDirectory(string source, string target)
         {
-            var mapper = new DirectoryMapper(_FileSystem, source);
-            var filesToCopy = mapper.GetAllFilePaths();
+            var mapper = new DirectoryMapper(_FileSystem);
+            var filesToCopy = mapper.GetAllFilePaths(source);
 
             var copier = new FileCopier(_FileSystem);
             await copier.CopyFiles(filesToCopy, target);

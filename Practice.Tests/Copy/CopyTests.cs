@@ -1,5 +1,6 @@
 ﻿using FluentAssertions;
 using Practice.Copy;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.IO.Abstractions.TestingHelpers;
@@ -16,10 +17,10 @@ namespace Practice.Tests.Copy
             // Arrange
             var baseDirectory = @"C:\base";
             var targetDirectory = @"C:\target";
-            var expectedDirectory = Path.Combine(targetDirectory, "base");
             var files = new Dictionary<string, MockFileData>
             {
                 { Path.Combine(baseDirectory, "myfile.txt"), new MockFileData("Testing is meh.") },
+                { Path.Combine(baseDirectory, @"subDir\myfile.txt"), new MockFileData("Testing is GREAT.") },
                 { Path.Combine(baseDirectory, "jQuery.js"), new MockFileData("some js") },
                 { Path.Combine(baseDirectory, "image.gif"), new MockFileData(new byte[] { 0x12, 0x34, 0x56, 0xd2 }) }
             };
@@ -33,8 +34,11 @@ namespace Practice.Tests.Copy
             foreach(var file in files)
             {
                 var fileName = Path.GetFileName(file.Key);
-                var newPath = Path.Combine(expectedDirectory, fileName);
-                var copied = fileSystem.GetFile(newPath);
+                var separator = fileSystem.Path.DirectorySeparatorChar;
+                var pathComponents = file.Key.Split(separator);
+                pathComponents[0] = targetDirectory;
+                var expectedDirectory = String.Join(separator.ToString(), pathComponents);
+                var copied = fileSystem.GetFile(expectedDirectory);
 
                 copied.Contents.Should().BeEquivalentTo(file.Value.Contents);
             }
