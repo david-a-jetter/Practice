@@ -37,7 +37,6 @@ namespace Practice.Tests.Copy
             //Assert
             foreach(var file in files)
             {
-                var fileName = Path.GetFileName(file.Key);
                 var separator = fileSystem.Path.DirectorySeparatorChar;
                 var pathComponents = file.Key.Split(separator);
                 pathComponents[0] = targetDirectory;

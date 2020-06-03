@@ -21,33 +21,37 @@ namespace Practice.Copy
                 throw new ArgumentException($"Directory does not exist: {directory}");
             }
 
-            var filePaths = GetFilePathsInDirectory(directory);
+            var filePaths = new HashSet<string>();
+            var subDirectories = new Queue<string>();
+            subDirectories.Enqueue(directory);
+
+            while (subDirectories.Count > 0)
+            {
+                var nextDirectory = subDirectories.Dequeue();
+                AppendFilesAndSubdirectories(nextDirectory, filePaths, subDirectories);
+            }
 
             return filePaths;
         }
 
-        private HashSet<string> GetFilePathsInDirectory(string directory)
+        private void AppendFilesAndSubdirectories(
+            string directory,
+            ISet<string> filePaths,
+            Queue<string> directoryQueue)
         {
             var files = _FileSystem.Directory.GetFiles(directory);
-            var paths = new HashSet<string>();
+
             foreach (var file in files)
             {
-                paths.Add(file);
+                filePaths.Add(file);
             }
 
             var subDirectories = _FileSystem.Directory.GetDirectories(directory);
 
             foreach (var subDirectory in subDirectories)
             {
-                var subPaths = GetFilePathsInDirectory(subDirectory);
-
-                foreach (var path in subPaths)
-                {
-                    paths.Add(path);
-                }
+                directoryQueue.Enqueue(subDirectory);
             }
-
-            return paths;
         }
     }
 }
